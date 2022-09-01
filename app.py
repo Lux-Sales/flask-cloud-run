@@ -23,15 +23,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return 'Só a home. Tenta as outras urls ai.'
-
-@app.route('/servico1')
-def servico1_faket():
-    return 'servico1 fake da default.'
-
-@app.route('/servico1/')
-def servico1_sobrescrito():
-    return 'Não vou aparecer pois fui sobrescrito.'
+    return 'Sou a home da aplicação, tenho dois serviços dentro de mim!'
 
 @app.errorhandler(500)
 def server_error(e):

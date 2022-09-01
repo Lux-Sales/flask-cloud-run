@@ -1,0 +1,1 @@
+gcloud app deploy servico1/app.yaml --quiet && gcloud app deploy servico2/app.yaml --quiet && gcloud app deploy app.yaml --quiet && gcloud app deploy dispatch.yaml --quiet

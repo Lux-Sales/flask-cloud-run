@@ -20,19 +20,18 @@ from flask import Flask
 
 app = Flask(__name__)
 
-
 @app.route('/')
-def hello():
-    return 'Olha eeeu!'
-
-@app.route('/mesmo-servico/')
-def hello2():
-    return 'Sigo aqui haha!'
+def home():
+    return 'Home do serviço 1'
 
 @app.route('/servico1/')
 def servico1():
-    return 'Respondendo apenas no /servico1'
+    return 'Sou o serviço 1'
 
+
+@app.route('/servico1/mesmo-servico/')
+def hello2():
+    return 'Eu também estou no serviço 1'
 
 @app.errorhandler(500)
 def server_error(e):

@@ -5,5 +5,12 @@ dispatch:
     service: servico1
 
   # Default service serves simple hostname request.
-  - url: "*/mesmo-servico/*"
+  - url: "*servico1/mesmo-servico/*"
+    service: servico1
+
+  - url: "*/servico2/*"
+    service: servico2
+
+  # Default service serves simple hostname request.
+  - url: "*servico2/mesmo-servico/*"
     service: servico2
