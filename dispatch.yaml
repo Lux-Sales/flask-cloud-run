@@ -1,0 +1,9 @@
+dispatch:
+
+  # Default service serves the typical web resources and all static resources.
+  - url: "*/servico1/*"
+    service: servico1
+
+  # Default service serves simple hostname request.
+  - url: "*/mesmo-servico/*"
+    service: servico2
