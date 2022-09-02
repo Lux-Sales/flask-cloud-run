@@ -14,7 +14,7 @@
 
 runtime: python310
 
-service: servico1
+service: materias
 
 handlers:
 - url: /.*

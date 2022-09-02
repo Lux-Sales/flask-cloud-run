@@ -14,7 +14,7 @@
 
 runtime: python310
 
-service: servico2
+service: alunos
 
 handlers:
 - url: /.*
