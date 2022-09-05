@@ -6,8 +6,9 @@ from typing import Optional
 from dotenv import load_dotenv
 from flask import Flask, jsonify, make_response, request
 from flask_sqlalchemy import SQLAlchemy
-from models import Aluno
 from pydantic import BaseModel
+
+from models import Aluno
 
 dotenv_path = join(dirname(__file__), '.env')  # Path to .env file
 load_dotenv(dotenv_path)

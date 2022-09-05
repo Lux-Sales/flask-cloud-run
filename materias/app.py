@@ -7,9 +7,10 @@ from typing import Optional
 from dotenv import load_dotenv
 from flask import Flask, jsonify, make_response, request
 from flask_sqlalchemy import SQLAlchemy
-from models import Materia
 from pydantic import BaseModel
 from sqlalchemy import MetaData
+
+from models import Materia
 
 dotenv_path = join(dirname(__file__), '.env')  # Path to .env file
 load_dotenv(dotenv_path)
