@@ -1,59 +1,35 @@
-# Copyright 2016 Google Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-# [START app]
-from datetime import datetime
-import json
 import logging
 import os
 from posixpath import dirname, join
 from typing import Optional
-from uuid import uuid1
-from flask import Flask, request, jsonify, make_response
-from flask_sqlalchemy import SQLAlchemy
-from marshmallow import fields
-from dotenv import load_dotenv
-from sqlalchemy import MetaData
-from pydantic import BaseModel
-from sqlalchemy.types import DateTime
-from sqlalchemy.dialects.mysql import BIGINT, DOUBLE
-from flask_migrate import Migrate
 
+from dotenv import load_dotenv
+from flask import Flask, jsonify, make_response, request
+from flask_sqlalchemy import SQLAlchemy
+from models import Aluno
+from pydantic import BaseModel
 
 dotenv_path = join(dirname(__file__), '.env')  # Path to .env file
 load_dotenv(dotenv_path)
 
 
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']=f"mysql+pymysql://{os.environ.get('DB_USER')}:{os.environ.get('DB_PASSWORD')}@{os.environ.get('DB_HOST')}:{os.environ.get('DB_PORT')}/{os.environ.get('DB_NAME')}"
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
-metadata_obj = MetaData()
+# metadata_obj = MetaData()
 
 def basic_get_by_id(model: db.Model, obj_id: str) -> db.Model:
     resp = db.session.query(model).filter(model.id == obj_id).first()
     if resp:
         return resp
-    raise dict(
-            [
-                ("code", 404),
-                ("message", "The requested entity could not be found."),
-                ("error_code", "entity_not_found"),
-            ]
-        )
+    raise Exception(dict(
+        [
+            ("code", 404),
+            ("message", "The requested entity could not be found."),
+            ("error_code", "entity_not_found"),
+        ]
+    ))
 
 def create_or_update_entity_with_data(model: db.Model, data: dict, model_id: str = None) -> db.Model:
     if model_id:
@@ -64,45 +40,8 @@ def create_or_update_entity_with_data(model: db.Model, data: dict, model_id: str
         obj.__setattr__(k, data.get(k))
     return obj
 
-###Models####
-def generate_uuid() -> int:
-    return uuid1().int >> 100
 
-
-class DefaultModel(object):
-
-    __mapper_args__ = {"always_refresh": True, "confirm_deleted_rows": False}
-
-    id = db.Column(BIGINT, primary_key=True, autoincrement=False)
-
-    created_at = db.Column(DateTime, default=datetime.utcnow)
-    updated_at = db.Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-    @property
-    def id_(self):
-        return str(self.id)
-
-    def __init__(self, **kwargs):
-        self.id = generate_uuid()
-        for k, val in kwargs.items():
-            self.__setattr__(k, val)
-            
-class Aluno(DefaultModel, db.Model):
-    __tablename__ = "aluno"
-    
-    id = db.Column(db.Integer, primary_key=True)
-    
-    nome = db.Column(db.String(20))
-    
-    faltas = db.Column(db.Integer)
-    
-    @property
-    def serialized(self):
-        return{
-            'id':self.id,
-            'nome':self.nome,
-            'faltas':self.faltas
-        }
+### Schemas ####
 
 class AlunoSchema(BaseModel):
     nome: str
