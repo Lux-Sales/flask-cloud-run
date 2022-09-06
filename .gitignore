@@ -1,3 +1,9 @@
 **/*__pycache__
-**/*.vscode]
+**/*.vscode
 **/*.env
+.py[cod]
+var/
+.python-version
+.DS_Store
+pyproject.toml
+poetry.lock
