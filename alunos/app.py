@@ -8,14 +8,23 @@ from flask import Flask, jsonify, make_response, request
 from flask_sqlalchemy import SQLAlchemy
 from pydantic import BaseModel
 
-from models import Aluno
+from .models import Aluno
 
 dotenv_path = join(dirname(__file__), '.env')  # Path to .env file
 load_dotenv(dotenv_path)
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']=f"mysql+pymysql://{os.environ.get('DB_USER')}:{os.environ.get('DB_PASSWORD')}@{os.environ.get('DB_HOST')}:{os.environ.get('DB_PORT')}/{os.environ.get('DB_NAME')}"
+
+if os.environ.get('DB_INSTANCE_NAME'):
+    app.config['SQLALCHEMY_DATABASE_URI']= (
+        f"mysql+pymysql://{os.environ.get('DB_USER')}:{os.environ.get('DB_PASSWORD')}@/{os.environ.get('DB_NAME')}?unix_socket=/cloudsql/{os.environ.get('DB_INSTANCE_NAME')}"
+    )
+else:
+    app.config['SQLALCHEMY_DATABASE_URI']= (
+        f"mysql+pymysql://{os.environ.get('DB_USER')}:{os.environ.get('DB_PASSWORD')}@{os.environ.get('DB_HOST')}:{os.environ.get('DB_PORT')}/{os.environ.get('DB_NAME')}"
+    )
+
 db = SQLAlchemy(app)
 
 # metadata_obj = MetaData()
