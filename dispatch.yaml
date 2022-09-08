@@ -1,16 +1,23 @@
 dispatch:
 
   # Default service serves the typical web resources and all static resources.
+  - url: "*/alunos/home/*"
+    service: alunos
+
+  # Default service serves simple hostname request.
+  - url: "*/materias/home/*"
+    service: materias
+
   - url: "*/servico1/*"
     service: servico1
 
   # Default service serves simple hostname request.
-  - url: "*servico1/mesmo-servico/*"
+  - url: "*/servico1/mesmo-servico/*"
     service: servico1
 
   - url: "*/servico2/*"
     service: servico2
 
   # Default service serves simple hostname request.
-  - url: "*servico2/mesmo-servico/*"
+  - url: "*/servico2/mesmo-servico/*"
     service: servico2

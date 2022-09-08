@@ -55,7 +55,7 @@ class MateriaUpdateSchema(BaseModel):
 
 
 
-@app.route('/')
+@app.route('/materias/home/')
 def home():
     return 'Home do serviço 2'
 

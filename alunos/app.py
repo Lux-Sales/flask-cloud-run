@@ -55,7 +55,7 @@ class AlunoUpdateSchema(BaseModel):
 
 
 
-@app.route('/')
+@app.route('/alunos/home/')
 def home():
     return 'Home do serviço 1'
 
