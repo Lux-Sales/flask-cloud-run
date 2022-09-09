@@ -64,9 +64,9 @@ class AlunoUpdateSchema(BaseModel):
 
 
 
-@app.route('/alunos/home/')
+@app.route('/')
 def home():
-    return 'Home do serviço 1'
+    return make_response(jsonify({"status": 'ok!'}))
 
 @app.route('/alunos/', methods = ['GET'])
 def get_alunos():
